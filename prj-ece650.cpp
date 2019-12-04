@@ -440,7 +440,7 @@ void Graph::printRes() {
     std::string resVC1 = "APPROX-VC-1: ";
     std::string resVC2 = "APPROX-VC-2: ";
 
-    for (unsigned i = 0; i < this->resultCNF.size(); i++) {
+   for (unsigned i = 0; i < this->resultCNF.size(); i++) {
         if (i == this->resultCNF.size() - 1) {
             resCNF.append(std::to_string(this->resultCNF[i]));
         }else {
@@ -546,7 +546,7 @@ void *threadIO(void *arg) {
     {
         while(true)
         {
-            if(countVec == 3)
+            if(countVec == 2)
             {
                 countVec = 0;
                 break;
@@ -558,7 +558,9 @@ void *threadIO(void *arg) {
     while (flag == 0) {
         if(std::cin.eof())
         {
-	    double averageCNF = accumulate( timeCNF.begin(), timeCNF.end(), 0.0) / (double)timeCNF.size(); 
+	    double averageCNF = accumulate( timeCNF.begin(), timeCNF.end(), 0.0) / (double)timeCNF.size();
+	   for(int i=0;i<timeCNF.size();i++){
+		   std::cout<<timeCNF[i]<<" "<<std::endl; }
 	    double sdCNF = calculateSD(timeCNF);
 	    std::cout << "CNF mean is: " << averageCNF << std::endl;
 	    std::cout << "CNF std is: " << sdCNF << std::endl;	
@@ -656,12 +658,12 @@ int main(int argc, char** argv) {
         if (status != 0) {
             std::cerr << "Error when creating thread IO!" << std::endl;
         }
-
+/*
         status = pthread_create(&thCNF, NULL, threadCNF, &graph);
         if (status != 0) {
-            std::cerr << "Error when creating thread CNF!" << std::endl;
+          std::cerr << "Error when creating thread CNF!" << std::endl;
         }
-
+*/
         status = pthread_create(&thVC1, NULL, threadVC1, &graph);
         if (status != 0) {
             std::cerr << "Error when creating thread VC1!" << std::endl;
@@ -672,8 +674,8 @@ int main(int argc, char** argv) {
             std::cerr << "Error when creating thread VC2!" << std::endl;
         }
 
-        pthread_join(thIO, NULL);
-        pthread_join(thCNF, NULL);
+	pthread_join(thIO, NULL);
+  //     	pthread_join(thCNF, NULL);
         pthread_join(thVC1, NULL);
         pthread_join(thVC2, NULL);
         
